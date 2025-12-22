@@ -41,3 +41,54 @@ Example body:
 }
 
 ```
+
+---
+
+## `/users/login` Endpoint
+
+**Description**
+Authenticates a user with email and password and returns an access token on success.
+
+**HTTP Method**
+`POST`
+
+---
+
+### Request Body
+
+The request body must be valid JSON and include the following fields:
+
+- `email` (string) — **required**, must be a valid email address
+- `password` (string) — **required**, minimum **8** characters
+
+**Example request**
+
+```json
+{
+  "email": "jane.doe@example.com",
+  "password": "s3cureP@ssw0rd"
+}
+```
+
+---
+
+### Responses
+
+**200 OK** ✅
+
+- Authentication successful. Returns a JSON object with a token and a sanitized user object.
+
+Example body:
+
+```json
+{
+  "message": "Login successful",
+  "user": {
+    "_id": "<user-id>",
+    "fullname": { "firstname": "Jane", "lastname": "Doe" },
+    "email": "jane.doe@example.com",
+    "socketId": null
+  },
+  "token": "bbb23hdsvbhhbdbbb"
+}
+```
