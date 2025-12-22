@@ -92,3 +92,56 @@ Example body:
   "token": "bbb23hdsvbhhbdbbb"
 }
 ```
+
+---
+
+## `/users/profile` Endpoint
+
+**Description**
+Returns the authenticated user's profile information.
+
+**HTTP Method**
+`GET`
+
+---
+
+### Responses
+
+**200 OK** ✅
+- Returns the authenticated user's sanitized profile. Requires a valid authentication token (sent as a cookie `token` or in the `Authorization: Bearer <token>` header).
+
+Example body:
+
+```json
+{
+  "user": {
+    "_id": "<user-id>",
+    "fullname": { "firstname": "Jane", "lastname": "Doe" },
+    "email": "jane.doe@example.com",
+    "socketId": null
+  }
+}
+```
+
+---
+
+## `/users/logout` Endpoint
+
+**Description**
+Logs out the authenticated user and invalidates their current session/token.
+
+**HTTP Method**
+`GET`
+
+---
+
+### Responses
+
+**200 OK** ✅
+- Logout successful; token invalidated.
+
+Example body:
+
+```json
+{ "message": "Logged out successfully" }
+```
