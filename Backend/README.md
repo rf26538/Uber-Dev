@@ -145,3 +145,62 @@ Example body:
 ```json
 { "message": "Logged out successfully" }
 ```
+
+---
+
+## Captain Routes 🚗
+
+### `/captains/register` Endpoint
+
+**Description**
+Registers a new captain (driver) including vehicle information and returns an authentication token on success.
+
+**HTTP Method**
+`POST`
+
+---
+
+### Request Body
+
+The request body must be valid JSON and include the following fields; validation rules are enforced by `express-validator` in `captain.routes.js`:
+
+- `fullname` (object)
+  - `firstname` (string) — **required**, minimum **3** characters
+  - `lastname` (string) — optional, minimum **3** characters if provided
+- `email` (string) — **required**, must be a valid email address
+- `password` (string) — **required**, minimum **8** characters
+- `phone` (string) — **required**
+- `vehicle` (object)
+  - `color` (string) — **required**, minimum **3** characters
+  - `plate` (string) — **required**, minimum **3** characters
+  - `capacity` (integer) — **required**, minimum **1**
+  - `vehicleType` (string) — **required**, one of `bike`, `car`, `auto`
+
+---
+
+### Responses
+
+**201 Created** ✅
+
+- Captain created successfully. Example response body:
+
+```json
+{
+  "message": "Captain registered successfully",
+  "captain": {
+    "_id": "<captain-id>",
+    "fullname": { "firstname": "John", "lastname": "Smith" },
+    "email": "john.smith@example.com",
+    "phone": "0700000000",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  },
+  "token": "bbb23hdsvbhhbdbbb"
+}
+```
+
+---
