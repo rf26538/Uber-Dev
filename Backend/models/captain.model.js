@@ -22,7 +22,8 @@ const captainSchema = new mongoose.Schema({
     },
     password: { 
         type: String, 
-        required: true, 
+        required: true,
+        select: false,
         minlength: [8, "Password must be at least 8 characters long"] 
     },
     phone: { type: String, required: true },

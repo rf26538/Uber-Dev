@@ -37,7 +37,7 @@ Example body:
     "email": "jane.doe@example.com",
     "socketId": null
   },
-  "token" : "bbb23hdsvbhhbdbbb"
+  "token" : "<jwt-token>"
 }
 
 ```
@@ -89,7 +89,7 @@ Example body:
     "email": "jane.doe@example.com",
     "socketId": null
   },
-  "token": "bbb23hdsvbhhbdbbb"
+  "token": "<jwt-token>"
 }
 ```
 
@@ -162,7 +162,7 @@ Registers a new captain (driver) including vehicle information and returns an au
 
 ### Request Body
 
-The request body must be valid JSON and include the following fields; validation rules are enforced by `express-validator` in `captain.routes.js`:
+The request body must be valid JSON and include the following fields;
 
 - `fullname` (object)
   - `firstname` (string) — **required**, minimum **3** characters
@@ -197,10 +197,117 @@ The request body must be valid JSON and include the following fields; validation
       "plate": "ABC123",
       "capacity": 4,
       "vehicleType": "car"
-    }
+    },
+    "socketId": null
   },
-  "token": "bbb23hdsvbhhbdbbb"
+  "token": "<jwt-token>"
 }
+```
+
+---
+
+### `/captains/login` Endpoint
+
+**Description**
+Authenticates a captain using email and password and returns an access token on success (a cookie named `token` is also set).
+
+**HTTP Method**
+`POST`
+
+---
+
+### Request Body
+
+- `email` (string) — **required**, must be a valid email address
+- `password` (string) — **required**
+
+---
+
+### Responses
+
+**200 OK** ✅
+
+- Login successful. Example body:
+
+```json
+{
+  "message": "Captain logged in successfully",
+  "captain": {
+    "_id": "<captain-id>",
+    "fullname": { "firstname": "John", "lastname": "Smith" },
+    "email": "john.smith@example.com",
+    "phone": "0700000000",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "socketId": null
+  },
+  "token": "<jwt-token>"
+}
+```
+
+Note: A cookie named `token` is also set with the same value returned in the response.
+---
+
+### `/captains/profile` Endpoint
+
+**Description**
+Returns the authenticated captain's profile information.
+
+**HTTP Method**
+`GET`
+
+---
+
+### Responses
+
+**200 OK** ✅
+- Returns the authenticated captain's profile. Requires a valid authentication token (sent as a cookie `token` or in the `Authorization: Bearer <token>` header).
+
+Example body:
+
+```json
+{
+  "captain": {
+    "_id": "<captain-id>",
+    "fullname": { "firstname": "John", "lastname": "Smith" },
+    "email": "john.smith@example.com",
+    "phone": "0700000000",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "socketId": null
+  }
+}
+```
+
+---
+
+### `/captains/logout` Endpoint
+
+**Description**
+Logs out the authenticated captain and invalidates their current session/token.
+
+**HTTP Method**
+`GET`
+
+---
+
+### Responses
+
+**200 OK** ✅
+- Logout successful; token invalidated.
+
+Example body:
+
+```json
+{ "message": "Captain logged out successfully" }
 ```
 
 ---
