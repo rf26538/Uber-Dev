@@ -10,7 +10,7 @@ module.exports.registerCaptain = async (req, res) => {
     }
 
     try {
-        const { fullname, email, password, phone, vehicle } = req.body;
+        const { fullname, email, password, vehicle } = req.body;
 
         const isExistingCaptain = await captainModel.findOne({ email });
         if (isExistingCaptain) {
