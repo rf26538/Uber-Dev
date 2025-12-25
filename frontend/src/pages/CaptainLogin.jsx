@@ -1,17 +1,44 @@
-import { useState } from "react"
+import { useState , useContext } from "react"
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { CaptainDataContext } from "../context/CaptainContext";
 
 const CaptainLogin = () => {
+
+  const navigate = useNavigate(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [captainData, setCaptainData] = useState({});
+  const {captain, setCaptain} = useContext(CaptainDataContext);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setCaptainData({ email, password });
+
+    const captain = {
+      email,
+      password,
+    };
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/captains/login`,
+      {
+      method: "POST",
+      headers: {  
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(captain),
+    });
+
+    const data = await response.json();
+
+    if (response.status === 200) {  
+      setCaptain(data.captain);
+      localStorage.setItem("token", data.token);
+      navigate("/captain-home");
+    }
+
     setEmail("");
     setPassword("");
-    console.log(captainData);
+
   }
 
   return (

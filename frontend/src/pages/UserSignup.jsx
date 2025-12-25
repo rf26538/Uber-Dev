@@ -1,26 +1,44 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/userContext";
 
 const UserSignup = () => {
-  const [FirstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const { user, setUser } = useContext(UserDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setUserData({
-      fullName: {
-        FirstName,
-        LastName,
+    const newUser = {
+      fullname: {
+        firstname : firstName,
+        lastname : lastName,
       },
-      email,
-      password,
+      email : email,
+      password : password,
+    };
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
     });
-    
-    console.log(userData);
+
+    const data = await response.json();
+    if (response.status === 201) {
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    } 
 
     setEmail("");
     setPassword("");
@@ -44,7 +62,7 @@ const UserSignup = () => {
               type="text"
               className="bg-[#eeeeee] rounded px-4 py-2 w-1/2 text-lg placeholder:text-base"
               placeholder="First Name"
-              value={FirstName}
+              value={firstName}
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
@@ -54,7 +72,7 @@ const UserSignup = () => {
               type="text"
               className="bg-[#eeeeee] rounded px-4 py-2 w-1/2 text-lg placeholder:text-base"
               placeholder="Last Name"
-              value={LastName}
+              value={lastName}
               onChange={(e) => {
                 setLastName(e.target.value);
               }}
@@ -86,7 +104,7 @@ const UserSignup = () => {
             className="bg-[#111] text-white font-semibold mb-5 rounded px-4 py-2 w-full text-lg placeholder:text-base"
             type="submit"
           >
-            Login
+            Create account
           </button>
         </form>
         <p className="text-center ">

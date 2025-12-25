@@ -1,17 +1,38 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import React, {useState, useContext} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/userContext";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
+  const { user, setUser } = useContext(UserDataContext);
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({ email, password });
+      const userData = { 
+        email : email, 
+        password : password
+      };
+
+      const response =  await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+      if (response.status === 200) {
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        navigate("/home");
+      }
+
     setEmail("");
     setPassword("");
-    console.log(userData);
   }
 
   return (
