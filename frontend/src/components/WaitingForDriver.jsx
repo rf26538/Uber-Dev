@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const WaitingForDriver = ({setWaitingForDriver}) => {
+const WaitingForDriver = ({ setWaitingForDriver }) => {
   return (
     <div>
       <h5
@@ -9,27 +9,26 @@ const WaitingForDriver = ({setWaitingForDriver}) => {
       >
         <i className="ri-arrow-down-wide-fill text-3xl text-gray-300"></i>
       </h5>
-    <div className='flex items-center justify-between'>
-      <img
-        className="h-10"
-        src="/assets/images/uber-car.webp"
-        alt="uber-car"
-      />
-      <div className='text-right'>
-        <h2 className='text-lg font-medium'>Rehan</h2>
-        <h4 className='text-xl font-semibold -mt-1 -mb-1'>MP04 AB 1234</h4>
-        <p className='font-sm text-gray-600'>Maruti Suzuki Alto</p>
+      <div className="flex items-center justify-between">
+        <img
+          className="h-10"
+          src="/assets/images/uber-car.webp"
+          alt="uber-car"
+        />
+        <div className="text-right">
+          <h2 className="text-lg font-medium">Rehan</h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">MP04 AB 1234</h4>
+          <p className="font-sm text-gray-600">Maruti Suzuki Alto</p>
+        </div>
       </div>
-    </div>
       <div className="flex flex-col justify-between items-center gap-2">
-        
         <div className="w-full mt-5">
-          <div className="flex items-center gap-5 p-3 border-b-2 border-gray-200">
+          <div className="flex items-center gap-5 p-3 border-b-2 border-gray-200"> 
             <i className="ri-map-pin-user-line text-lg"></i>
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                Takiyan bankat, Gopalganj 
               </p>
             </div>
           </div>
@@ -54,7 +53,7 @@ const WaitingForDriver = ({setWaitingForDriver}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WaitingForDriver
+export default WaitingForDriver;
