@@ -1,5 +1,16 @@
 # Backend API Documentation 🔧
 
+## Authentication
+
+**How it works**
+- Tokens are issued on registration/login and returned in the response as `token`. On login, a cookie named `token` is also set.
+- To authenticate requests, send the token either as a cookie named `token` or as an HTTP header `Authorization: Bearer <token>`.
+- Protected endpoints (user/captain profile, ride creation, map endpoints) require a valid token. Missing, invalid, or blacklisted tokens receive **401 Unauthorized** responses.
+
+> Note: Validation errors are returned with status `400` and an `errors` array from `express-validator`.
+
+---
+
 ## `/users/register` Endpoint
 
 **Description**
@@ -308,6 +319,138 @@ Example body:
 
 ```json
 { "message": "Captain logged out successfully" }
+```
+
+---
+
+## Map Routes 🗺️
+
+### `/maps/get-coordinates` Endpoint
+
+**Description**
+Returns latitude/longitude and a formatted address for a provided address string.
+
+**HTTP Method**
+`GET`
+
+### Query Parameters
+
+- `address` (string) — **required**, minimum **3** characters
+
+### Responses
+
+**200 OK** ✅
+
+Returns coordinates and the formatted address.
+
+Example body:
+
+```json
+{
+  "lat": 6.5244,
+  "lng": 3.3792,
+  "formattedAddress": "Eko Atlantic, Lagos, Nigeria"
+}
+```
+
+---
+
+### `/maps/get-distance-time` Endpoint
+
+**Description**
+Returns distance and estimated travel time between two addresses.
+
+**HTTP Method**
+`GET`
+
+### Query Parameters
+
+- `origin` (string) — **required**, minimum **3** characters
+- `destination` (string) — **required**, minimum **3** characters
+
+### Responses
+
+**200 OK** ✅
+
+Example body:
+
+```json
+{
+  "distance": { "text": "12.3 km", "value": 12300 },
+  "time": { "text": "20 mins", "value": 1200 },
+  "status": "OK"
+}
+```
+
+---
+
+### `/maps/get-suggestions` Endpoint
+
+**Description**
+Returns Google Places Autocomplete predictions for a partial query.
+
+**HTTP Method**
+`GET`
+
+### Query Parameters
+
+- `input` (string) — **required**, minimum **3** characters
+
+### Responses
+
+**200 OK** ✅
+
+Returns an array of autocomplete prediction objects as returned by the Google Places API (see `services/map.service.js` for integration details).
+
+Example body:
+
+```json
+[
+  {
+    "description": "Victoria Island, Lagos, Nigeria",
+    "place_id": "...",
+    "structured_formatting": { "main_text": "Victoria Island", "secondary_text": "Lagos, Nigeria" }
+  }
+]
+```
+
+---
+
+## Ride Routes 🚕
+
+### `/rides/create` Endpoint
+
+**Description**
+Creates a new ride request. Fare is calculated based on distance/time and the chosen vehicle type.
+
+**HTTP Method**
+`POST`
+
+### Request Body
+
+- `pickup` (string) — **required**
+- `destination` (string) — **required**
+- `vehicleType` (string) — **required**, one of `"car"`, `"auto"`, `"bike"`
+
+### Responses
+
+**201 Created** ✅
+
+Returns the created ride object (note: `otp` is stored on the model with `select: false` and is not returned by default).
+
+Example body:
+
+```json
+{
+  "_id": "<ride-id>",
+  "user": "<user-id>",
+  "pickup": "Ikeja City Mall",
+  "destination": "Victoria Island",
+  "fare": 842.5,
+  "status": "pending",
+  "createdAt": "2025-12-27T...",
+  "updatedAt": "2025-12-27T..."
+}
 ```
 
 ---
