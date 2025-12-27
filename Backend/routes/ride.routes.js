@@ -1,0 +1,15 @@
+const express = require('express');
+const router = express.Router();
+const { body } = require('express-validator');
+const rideController = require('../controllers/ride.controller');
+const authMiddleware = require('../middlewares/auth.middleware');
+
+router.post("/create",
+    body("pickup").isString().notEmpty().withMessage("Pickup address is required"),
+    body("destination").isString().notEmpty().withMessage("Dropoff address is required"),
+    body("vehicleType").isString().isIn(["car", "auto", "bike"]).withMessage("Invalid vehicle type"),
+    authMiddleware.authUser,
+    rideController.createARide
+);
+    
+module.exports = router;
