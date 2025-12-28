@@ -13,7 +13,7 @@ const CaptainLogin = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const captain = {
+    const captainData = {
       email,
       password,
     };
@@ -25,7 +25,7 @@ const CaptainLogin = () => {
       headers: {  
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(captain),
+      body: JSON.stringify(captainData),
     });
 
     const data = await response.json();

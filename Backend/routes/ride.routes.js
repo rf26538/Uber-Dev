@@ -18,5 +18,11 @@ router.get("/fare-estimate",
     query("destination").isString().notEmpty().withMessage("Dropoff address is required"),
     rideController.getFareEstimate
 );
+
+router.post("/confirm",
+    authMiddleware.authCaptain,
+    body("rideId").isMongoId().withMessage("Invalid Ride ID"),
+    rideController.confirmRide
+);
     
 module.exports = router;

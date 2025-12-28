@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { UserDataContext } from "../context/userContext";
+import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const UserProtectedWrapper = ({ children }) => {
@@ -27,7 +27,7 @@ const UserProtectedWrapper = ({ children }) => {
 
         if (response.status === 200) {
           const data = await response.json();
-          setUser(data.user);
+          setUser(data);
           setIsLoading(false);
         }
       } catch (error) {

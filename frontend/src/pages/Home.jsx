@@ -1,4 +1,4 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef, useEffect, useContext} from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import LocationSearchPanel from "../components/LocationSearchPanel";
@@ -7,6 +7,8 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { useLocationSuggestions } from "../hooks/useLocation";
+import { SocketContext } from "../context/SocketContext";
+import { UserDataContext } from "../context/UserContext";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -27,6 +29,26 @@ const Home = () => {
   const [activeField, setActiveField] = useState("");
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState("");
+  const [ride, setRide] = useState(null);
+
+  const { user } = useContext(UserDataContext);
+  const { socket } = useContext(SocketContext);
+
+  useEffect(() => {
+    if (!socket || !user?._id) return;
+
+    socket.emit("join", {
+      userType: "user",
+      userId: user._id,
+    });
+  }, [socket, user]);
+
+  socket.on("ride-confirmed", (data) => {
+    setRide(data);
+    setVehicleFound(false);
+    setWaitingForDriver(true);
+  }
+ );
 
   useLocationSuggestions(pickup, setPickupSuggestions);
   useLocationSuggestions(destination, setDestinationSuggestions);
@@ -228,7 +250,7 @@ const Home = () => {
       ref={waitingForDriverRef}
         className="fixed w-full z-10 bottom-0 bg-white px-3 py-10 translate-y-full pt-12"
       >
-        <WaitingForDriver setWaitingForDriver={setWaitingForDriver}/>
+        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} ride={ride}/>
       </div>
     </div>
   );

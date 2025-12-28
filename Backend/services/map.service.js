@@ -1,3 +1,5 @@
+const captainModel = require("../models/captain.model");
+
 module.exports.getAddressCoordinates = async (address) => {
     
     try {
@@ -83,4 +85,17 @@ module.exports.getSuggestions = async (input) => {
         console.error(err);
         throw err;
     }   
+}
+
+module.exports.getCaptainInTheRadious = async (ltd, lng, radius) => {
+    // Radius in Km
+    const captains = await captainModel.find({
+        location : {
+            $geoWithin : {
+                $centerSphere: [ [ltd, lng], radius / 6371 ]
+            }
+        }
+    })
+
+    return captains;
 }

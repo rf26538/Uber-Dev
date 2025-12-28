@@ -1,4 +1,3 @@
-import React, { useContext } from "react"
 import { Routes, Route } from "react-router-dom";
 import Start from "./pages/Start";
 import UserLogin from "./pages/UserLogin";
@@ -6,7 +5,6 @@ import UserSignup from "./pages/UserSignup";
 import CaptainLogin from "./pages/CaptainLogin";
 import CaptainSignup from "./pages/CaptainSignup";
 import Home from "./pages/Home";
-import { UserDataContext } from "./context/userContext";
 import UserProtectedWrapper from "./pages/UserProtectedWrapper";
 import CaptainProtectedWrapper from "./pages/CaptainProtectedWrapper";
 import UserLogout from "./pages/UserLogout";
@@ -17,9 +15,6 @@ import CaptainRiding from "./pages/CaptainRiding";
 import "remixicon/fonts/remixicon.css";
 
 const App = () => {
-  const ans = useContext(UserDataContext);
-console.log(ans);
-
   return (
     <div>
       <Routes >

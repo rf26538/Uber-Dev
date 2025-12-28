@@ -56,7 +56,7 @@ const captainSchema = new mongoose.Schema({
         },
     },
     location: {
-        lat: {
+        ltd: {
             type: Number,
         },
         lng: {
@@ -77,7 +77,6 @@ captainSchema.methods.generateAuthToken = function() {
 captainSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 }   
-
 
 captainSchema.statics.hashPassword = async function(password) {
     return await bcrypt.hash(password, 10);

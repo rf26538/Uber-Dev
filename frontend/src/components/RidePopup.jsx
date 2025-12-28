@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel}) => {
+const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmRide}) => {
   return (
     <div>
       <h5
@@ -13,7 +13,7 @@ const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel}) => {
       <div className='flex items-center justify-between mt-4 p-3 bg-yellow-400 rounded-lg'>
         <div className='flex items-center gap-3'>
             <img className="h-12 w-12 rounded-full object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9Yf92meLNpAnVV99uCNLOxFznGt-VaSuWwQ&s" alt="random-img" />
-            <h2 className='text-lg font-medium'>Harshi Patelia</h2>
+            <h2 className='text-lg font-medium'>{ride?.user.fullname.firstname + " " +ride?.user.fullname.firstname }</h2>
         </div>
         <h5 className='text-lg font-semibold'>2.2 Km</h5>
       </div>
@@ -24,7 +24,7 @@ const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel}) => {
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                {ride?.pickup}
               </p>
             </div>
           </div>
@@ -33,7 +33,7 @@ const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel}) => {
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                {ride?.destination}
               </p>
             </div>
           </div>
@@ -42,7 +42,7 @@ const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel}) => {
             <div className="">
               <h3 className="text-lg font-medium">₹193.20</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Cash Cash
+                {ride?.fare}
               </p>
             </div>
           </div>
@@ -54,7 +54,10 @@ const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel}) => {
             Ignore
             </button>
             <button className="mt-1 bg-green-600 text-white font-semibold p-3 px-10 rounded-lg"
-                onClick={() => setConfirmRidePopupPanel(true)}
+                onClick={() => {
+                  setConfirmRidePopupPanel(true)
+                  confirmRide()
+                }}
             >
             Accept
             </button>
