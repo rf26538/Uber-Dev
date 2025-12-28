@@ -454,3 +454,32 @@ Example body:
 ```
 
 ---
+
+### `/rides/fare-estimate` Endpoint
+
+**Description**
+Returns estimated fares for available vehicle types based on the distance and estimated travel time between `pickup` and `destination`.
+
+**HTTP Method**
+`GET`
+
+### Query Parameters
+
+- `pickup` (string) — **required** (validation message: "Pickup address is required")
+- `destination` (string) — **required** (validation message: "Dropoff address is required")
+
+### Responses
+
+**200 OK** ✅
+
+Example body:
+
+```json
+{
+  "car": 842.5,
+  "auto": 612.3,
+  "bike": 480.0,
+  "distance": { "text": "12.3 km", "value": 12300 },
+  "time": { "text": "20 mins", "value": 1200 }
+}
+```

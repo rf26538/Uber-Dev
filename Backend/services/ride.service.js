@@ -28,9 +28,23 @@ async function getFare(pickup, destination) {
     };
 
     const fare = {
-        car: baseFare.car + (perKmRate.car * (distanceTime.distance.value / 1000)) + (perMinuteRate.car * (distanceTime.time.value / 60)),
-        auto: baseFare.auto + (perKmRate.auto * (distanceTime.distance.value / 1000)) + (perMinuteRate.auto * (distanceTime.time.value / 60)),
-        bike: baseFare.bike + (perKmRate.bike * (distanceTime.distance.value / 1000)) + (perMinuteRate.bike * (distanceTime.time.value / 60))
+        car: Math.round(
+            (baseFare.car + 
+             perKmRate.car * (distanceTime.distance.value / 1000) + 
+             perMinuteRate.car * (distanceTime.time.value / 60)) * 100
+          ) / 100,
+        auto: Math.round(
+            (baseFare.auto + 
+             perKmRate.auto * (distanceTime.distance.value / 1000) + 
+             perMinuteRate.auto * (distanceTime.time.value / 60)) * 100
+          ) / 100,
+        bike: Math.round(
+            (baseFare.bike + 
+             perKmRate.bike * (distanceTime.distance.value / 1000) + 
+             perMinuteRate.bike * (distanceTime.time.value / 60)) * 100
+          ) / 100,
+        distance: distanceTime.distance.text,
+        time: distanceTime.time.text
     }
 
     return fare;
@@ -59,3 +73,4 @@ module.exports.createRide = async ({
     return rideData;
 };
 
+module.exports.getFare = getFare;

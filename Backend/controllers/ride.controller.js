@@ -15,3 +15,17 @@ module.exports.createARide = async (req, res) => {
         return res.status(400).json({ error: error.message });
     }
 };
+
+module.exports.getFareEstimate = async (req, res) => {
+    try {
+        const { pickup, destination } = req.query;
+        if (!pickup || !destination) {
+            return res.status(400).json({ error: 'Pickup and Destination are required' });
+        }
+
+        const fare = await rideService.getFare(pickup, destination);
+        return res.status(200).json(fare);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+}

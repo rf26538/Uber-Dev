@@ -1,31 +1,36 @@
 import React from 'react'
 
-const VehiclePanel = ({ setConfirmRidePanel, setVehiclePanelOpen}) => {
+const VehiclePanel = ({ setConfirmRidePanel, setVehiclePanelOpen, fare, setVehicleType}) => {
 
+  if (!fare || !fare.car) return null;
+  
   const vehicleInfo = [
     {
       vehicleType : "UberGo",
+      vehicleVal : "car",
       vehicleIcon : "uber-car.webp",
       distance : "2 mins away",
-      fair : "193.20",
+      price : fare.car,
       capacity : 4,
       msg : "Affordable, compact rides"
     },
     {
       vehicleType : "Moto",
+      vehicleVal : "bike",
       vehicleIcon : "uber-bike.webp",
-      distance : "3 mins away",
-      fair : "65",
+      distance : "2 mins away",
+      price : fare.bike,
       capacity : 1,
-      msg : "Affordable, auto rides"
+      msg : "Affordable, bike rides"
     },
     {
       vehicleType : "UberAuto",
+      vehicleVal : "auto",
       vehicleIcon : "uber-auto.webp",
-      distance : "2 mins away",
-      fair : "118.68",
+      distance : "3 mins away",
+      price : fare.auto,
       capacity : 3,
-      msg : "Affordable, bike rides"
+      msg : "Affordable, auto rides"
     },
   ];
 
@@ -37,7 +42,10 @@ const VehiclePanel = ({ setConfirmRidePanel, setVehiclePanelOpen}) => {
       <h3 className="text-2xl font-semibold mb-4">Available Rides</h3>
         {
           vehicleInfo.map((vehicle, index) => (
-          <div onClick={() => setConfirmRidePanel(true)} key={`vehicle-${index}`} className="flex w-full items-center justify-between p-3 border-2 border-gray-300 active:border-black rounded-xl mb-2">
+          <div onClick={() => {
+            setConfirmRidePanel(true)
+            setVehicleType(vehicle.vehicleVal)
+          }} key={`vehicle-${index}`} className="flex w-full items-center justify-between p-3 border-2 border-gray-300 active:border-black rounded-xl mb-2">
             <img
               className="h-10"
               src={`/assets/images/${vehicle.vehicleIcon}`}
@@ -48,7 +56,7 @@ const VehiclePanel = ({ setConfirmRidePanel, setVehiclePanelOpen}) => {
               <h5 className="font-medium text-sm">{vehicle.distance}</h5>
               <p className="font-normal text-xs text-gray-600">{vehicle.msg}</p>
             </div>
-            <h2 className="text-lg font-semibold">₹{vehicle.fair}</h2>
+            <h2 className="text-lg font-semibold">₹{vehicle.price}</h2>
           </div>
           ))
         }

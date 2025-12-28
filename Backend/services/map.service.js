@@ -75,7 +75,7 @@ module.exports.getSuggestions = async (input) => {
         if (response.status === 200) {
             const data = await response.json();
             if (!data || data.status !== 'OK' || !data.predictions) return [];
-            return data.predictions;
+            return data.predictions.map(prediction => prediction.description);
         } else {
             throw new Error(`Unable to fetch suggestions from Google Maps API. Status Code: ${response.status}`);
         }

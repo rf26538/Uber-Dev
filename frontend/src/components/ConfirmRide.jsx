@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfirmRide = ({setConfirmRidePanel, setVehicleFound}) => {
+const ConfirmRide = ({setConfirmRidePanel, setVehicleFound, createRide, pickup, destination, fare, vehicleType}) => {
   return (
     <div>
       <h5
@@ -22,7 +22,7 @@ const ConfirmRide = ({setConfirmRidePanel, setVehicleFound}) => {
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                {pickup}
               </p>
             </div>
           </div>
@@ -31,16 +31,16 @@ const ConfirmRide = ({setConfirmRidePanel, setVehicleFound}) => {
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                {destination}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-line text-lg"></i>
             <div className="">
-              <h3 className="text-lg font-medium">562/11 -A</h3>
+              <h3 className="text-lg font-medium">₹{fare[vehicleType]}</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                Cash Cash
               </p>
             </div>
           </div>
@@ -49,6 +49,7 @@ const ConfirmRide = ({setConfirmRidePanel, setVehicleFound}) => {
             onClick={() => {
                 setVehicleFound(true);
                 setConfirmRidePanel(false);
+                createRide();
             }}
         >
           Confirm
