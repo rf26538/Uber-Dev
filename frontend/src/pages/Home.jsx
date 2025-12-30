@@ -10,6 +10,7 @@ import { useLocationSuggestions } from "../hooks/useLocation";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/liveTracking";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -173,8 +174,7 @@ const Home = () => {
     <div className="h-screen relative overflow-hidden">
       <img className="w-16 absolute left-5 top-5" src="/assets/images/uber-logo-black.png" alt="Home"/>
       <div className="h-screen w-screen">
-        {/* image for temporary use */}
-        <img className="h-full w-full object-cover" src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="test-img"/>
+        <LiveTracking />
       </div>
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full">
         <div className="h-[35%] bg-white p-6 relative">

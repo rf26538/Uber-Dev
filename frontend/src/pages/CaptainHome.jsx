@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SocketContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
+import LiveTracking from "../components/liveTracking";
 
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -110,10 +111,7 @@ const CaptainHome = () => {
         </div>
         <div className="h-3/5">
           {/* image for temporary use */}
-          <img
-            className="h-full w-full object-cover"
-            src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          />
+          <LiveTracking />
         </div>
         <div className="h-2/5 p-6">
           <CaptainDetails />
