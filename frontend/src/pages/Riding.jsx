@@ -1,7 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom"
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { SocketContext } from "../context/SocketContext";
 
 const Riding = () => {
+  const location = useLocation();
+  const ride = location.state?.ride;
+  const navigate = useNavigate();
+  const { socket } = useContext(SocketContext);
+
+  socket.on("ride-ended", (data) => {
+    navigate("/home");
+  });
+
+
   return (
     <div className="h-screen">
         <Link to="/home" className="fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full">
@@ -22,8 +33,8 @@ const Riding = () => {
             alt="uber-car"
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium">Rehan</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">MP04 AB 1234</h4>
+            <h2 className="text-lg font-medium">{ride?.captain?.fullname?.firstname}</h2>
+            <h4 className="text-xl font-semibold -mt-1 -mb-1">{ride?.captain?.vehicle?.plate}</h4>
             <p className="font-sm text-gray-600">Maruti Suzuki Alto</p>
           </div>
         </div>
@@ -34,7 +45,7 @@ const Riding = () => {
               <div className="">
                 <h3 className="text-lg font-medium">562/11 -A</h3>
                 <p className="text-sm -mt-1 text-gray-600">
-                  Takiyan bankat, Gopalganj
+                  {ride?.pickup}
                 </p>
               </div>
             </div>
@@ -43,7 +54,7 @@ const Riding = () => {
               <div className="">
                 <h3 className="text-lg font-medium">562/11 -A</h3>
                 <p className="text-sm -mt-1 text-gray-600">
-                  Takiyan bankat, Gopalganj
+                  {ride?.destination} 
                 </p>
               </div>
             </div>

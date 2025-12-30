@@ -1,8 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+const FinishRide = ({ setFinishRidePanel , rideData}) => {
+  const navigate = useNavigate();
 
-const FinishRide = ({ setFinishRidePanel }) => {
+  const endRide = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/rides/finish-ride`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          rideId: rideData?._id,
+        }),
+      }); 
+       
+      if(response.status === 200){
+        const data = await response.json();       
+        console.log("Ride finished:", data);
+        setFinishRidePanel(false);
+        navigate("/captain-home");
+      }
+    } catch (error) {
+      console.error("Error finishing ride:", error);
+    }
+  };
+
   return (
     <div>
       <h5
@@ -21,7 +45,7 @@ const FinishRide = ({ setFinishRidePanel }) => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9Yf92meLNpAnVV99uCNLOxFznGt-VaSuWwQ&s"
             alt="random-img"
           />
-          <h2 className="text-lg font-medium">Harshi Patelia</h2>
+          <h2 className="text-lg font-medium">{rideData?.user?.fullname?.firstname + " " + rideData?.user?.fullname?.lastname}</h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 Km</h5>
       </div>
@@ -32,7 +56,7 @@ const FinishRide = ({ setFinishRidePanel }) => {
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                {rideData?.pickup}
               </p>
             </div>
           </div>
@@ -41,14 +65,14 @@ const FinishRide = ({ setFinishRidePanel }) => {
             <div className="">
               <h3 className="text-lg font-medium">562/11 -A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Takiyan bankat, Gopalganj
+                {rideData?.destination}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-line text-lg"></i>
             <div className="">
-              <h3 className="text-lg font-medium">₹193.20</h3>
+              <h3 className="text-lg font-medium">₹{rideData?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600">
                 Cash Cash
               </p>
@@ -56,11 +80,11 @@ const FinishRide = ({ setFinishRidePanel }) => {
           </div>
         </div>
         <div className="mt-6 w-full">
-            <Link
-              to="/captain-home"
+            <button
+              onClick={endRide}
               className="w-full mt-1 flex text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg"
             >Finish Ride
-            </Link>
+            </button>
             <p className="text-red-500 mt-3 text-sm">click on finish ride button if you have completed the ride.</p>
         </div>
       </div>

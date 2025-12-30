@@ -9,6 +9,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import { useLocationSuggestions } from "../hooks/useLocation";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -33,6 +34,7 @@ const Home = () => {
 
   const { user } = useContext(UserDataContext);
   const { socket } = useContext(SocketContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!socket || !user?._id) return;
@@ -44,12 +46,15 @@ const Home = () => {
   }, [socket, user]);
 
   socket.on("ride-confirmed", (data) => {
-    console.log("ride confirmed",data);
     setRide(data);
     setVehicleFound(false);
     setWaitingForDriver(true);
-  }
- );
+  });
+
+  socket.on("ride-started", (data) => {
+    setWaitingForDriver(false);
+    navigate("/riding", {state: { ride: data }});
+  });
 
   useLocationSuggestions(pickup, setPickupSuggestions);
   useLocationSuggestions(destination, setDestinationSuggestions);

@@ -57,7 +57,7 @@ module.exports.getFareEstimate = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
-}
+};
 
 module.exports.confirmRide = async (req, res) => {
     try {
@@ -79,4 +79,45 @@ module.exports.confirmRide = async (req, res) => {
         return res.status(400).json({ error: error.message });
     }
 
+};
+
+module.exports.startRide = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const { rideId, otp } = req.query;
+
+        const ride = await rideService.startRide({ rideId, captainId : req.captain._id, otp });
+        
+        sendMessageToSocketId(ride.user.socketId, {
+            event: "ride-started",
+            data: ride,
+        });
+
+        return res.status(200).json(ride);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+module.exports.finishRide = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }   
+        const { rideId } = req.body;
+
+        const ride = await rideService.endRide({ rideId, captainId : req.captain._id });
+        
+        sendMessageToSocketId(ride.user.socketId, {
+            event: "ride-ended",
+            data: ride,
+        });
+        return res.status(200).json(ride);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
 };

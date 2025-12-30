@@ -40,9 +40,9 @@ const RidePopup = ({setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmRi
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-line text-lg"></i>
             <div className="">
-              <h3 className="text-lg font-medium">₹193.20</h3>
+              <h3 className="text-lg font-medium">₹{ride?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                {ride?.fare}
+                Cash Cash
               </p>
             </div>
           </div>

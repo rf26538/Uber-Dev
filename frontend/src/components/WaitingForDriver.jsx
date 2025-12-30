@@ -9,16 +9,17 @@ const WaitingForDriver = ({ setWaitingForDriver, ride }) => {
       >
         <i className="ri-arrow-down-wide-fill text-3xl text-gray-300"></i>
       </h5>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between bg-gray-300 rounded-xl p-4">
         <img
           className="h-10"
           src="/assets/images/uber-car.webp"
           alt="uber-car"
         />
         <div className="text-right">
-          <h2 className="text-lg font-medium">{ride?.captain?.fullname?.firstname + " " + ride?.captain?.fullname?.lastname}</h2>
-          <h4 className="text-xl font-semibold -mt-1 -mb-1">MP04 AB 1234</h4>
+          <h2 className="text-lg font-medium capitalize">{ride?.captain?.fullname?.firstname}</h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">{ride?.captain?.vehicle?.plate}</h4>
           <p className="font-sm text-gray-600">Maruti Suzuki Alto</p>
+          <h2 className="text-lg font-semibold">OTP : {ride?.otp}</h2>
         </div>
       </div>
       <div className="flex flex-col justify-between items-center gap-2">
